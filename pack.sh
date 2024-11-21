@@ -1,7 +1,7 @@
 #!/bin/sh
 
 FILE_BOOTROM=./build/bootrom/bootrom.bin
-FILE_UEFI=./bin/uefi.fd
+FILE_UEFI=./bin/fw_payload.bin
 FILE_OUT=./out/Image
 
 mkdir -p out
