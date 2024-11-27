@@ -1,9 +1,9 @@
 #ifndef	_UART_H
 #define	_UART_H
 
-#define UART_CLK          50000000
+//#define UART_CLK          50000000
 //#define UART_CLK          24000000
-//#define UART_CLK          100000000
+#define UART_CLK          100000000
 #define UART_DEFAULT_BAUD 115200
 //#define UART_BASE 0x310B0000
 #define UART_BASE 0x50000

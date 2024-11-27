@@ -41,8 +41,8 @@ _start:
 	//add sp, sp, t0
         //disable irq
         //jal soc_cru
-        jal gpio
-        j .
+        //jal gpio
+        //j .
         csrw mie, zero
         //set expeption handler
         la t0, sbi_exception_vector
