@@ -13,40 +13,44 @@ Linker script and memory map
  .text.boot     0x0000000002200000       0x84 build/boot_s.o
                 0x0000000002200000                _start
 
-.text           0x0000000002200084      0x21c
+.text           0x0000000002200084      0x230
  *(.text)
  .text          0x0000000002200084        0x0 build/boot_s.o
  .text          0x0000000002200084       0x8c build/driver/ddr_c.o
                 0x0000000002200084                initDDR
- .text          0x0000000002200110       0xb2 build/driver/uart_c.o
+ .text          0x0000000002200110       0xc6 build/driver/uart_c.o
                 0x0000000002200110                uart_putc
                 0x0000000002200128                uart_getc
                 0x0000000002200144                uart_puts
                 0x0000000002200166                uart_init
- .text          0x00000000022001c2       0xde build/src/main_c.o
-                0x00000000022001c2                flash_cpy
-                0x0000000002200220                soc_cru
-                0x000000000220023c                gpio
-                0x0000000002200280                _main
+ .text          0x00000000022001d6       0xde build/src/main_c.o
+                0x00000000022001d6                flash_cpy
+                0x0000000002200234                soc_cru
+                0x0000000002200250                gpio
+                0x0000000002200294                _main
 
-.data           0x00000000022002a0      0xd98
+.rodata
+ *(.rodata)
+
+.data           0x00000000022002b8      0xd98
  *(.data)
- .data          0x00000000022002a0        0x0 build/boot_s.o
- .data          0x00000000022002a0      0xd98 build/driver/ddr_c.o
-                0x00000000022002a0                cmds
- .data          0x0000000002201038        0x0 build/driver/uart_c.o
- .data          0x0000000002201038        0x0 build/src/main_c.o
+ .data          0x00000000022002b8        0x0 build/boot_s.o
+ .data          0x00000000022002b8      0xd98 build/driver/ddr_c.o
+                0x00000000022002b8                cmds
+ .data          0x0000000002201050        0x0 build/driver/uart_c.o
+ .data          0x0000000002201050        0x0 build/src/main_c.o
+
+.bss            0x0000000002201050        0x0
+ *(.bss)
+ .bss           0x0000000002201050        0x0 build/boot_s.o
+ .bss           0x0000000002201050        0x0 build/driver/ddr_c.o
+ .bss           0x0000000002201050        0x0 build/driver/uart_c.o
+ .bss           0x0000000002201050        0x0 build/src/main_c.o
 LOAD build/boot_s.o
 LOAD build/driver/ddr_c.o
 LOAD build/driver/uart_c.o
 LOAD build/src/main_c.o
 OUTPUT(build/bootrom.elf elf64-littleriscv)
-
-.bss            0x0000000002201038        0x0
- .bss           0x0000000002201038        0x0 build/boot_s.o
- .bss           0x0000000002201038        0x0 build/driver/ddr_c.o
- .bss           0x0000000002201038        0x0 build/driver/uart_c.o
- .bss           0x0000000002201038        0x0 build/src/main_c.o
 
 .riscv.attributes
                 0x0000000000000000       0x4b
@@ -74,11 +78,11 @@ OUTPUT(build/bootrom.elf elf64-littleriscv)
  .note.GNU-stack
                 0x0000000000000000        0x0 build/src/main_c.o
 
-.debug_line     0x0000000000000000      0xab8
+.debug_line     0x0000000000000000      0xb18
  .debug_line    0x0000000000000000      0x16c build/boot_s.o
  .debug_line    0x000000000000016c      0x1a8 build/driver/ddr_c.o
- .debug_line    0x0000000000000314      0x352 build/driver/uart_c.o
- .debug_line    0x0000000000000666      0x452 build/src/main_c.o
+ .debug_line    0x0000000000000314      0x3b2 build/driver/uart_c.o
+ .debug_line    0x00000000000006c6      0x452 build/src/main_c.o
 
 .debug_line_str
                 0x0000000000000000      0x18e
@@ -94,17 +98,17 @@ OUTPUT(build/bootrom.elf elf64-littleriscv)
                 0x000000000000011f       0x6f build/src/main_c.o
                                          0xdd (size before relaxing)
 
-.debug_info     0x0000000000000000      0x88f
+.debug_info     0x0000000000000000      0x919
  .debug_info    0x0000000000000000       0x29 build/boot_s.o
  .debug_info    0x0000000000000029      0x135 build/driver/ddr_c.o
- .debug_info    0x000000000000015e      0x369 build/driver/uart_c.o
- .debug_info    0x00000000000004c7      0x3c8 build/src/main_c.o
+ .debug_info    0x000000000000015e      0x3f3 build/driver/uart_c.o
+ .debug_info    0x0000000000000551      0x3c8 build/src/main_c.o
 
-.debug_abbrev   0x0000000000000000      0x366
+.debug_abbrev   0x0000000000000000      0x379
  .debug_abbrev  0x0000000000000000       0x14 build/boot_s.o
  .debug_abbrev  0x0000000000000014       0xe7 build/driver/ddr_c.o
- .debug_abbrev  0x00000000000000fb      0x12d build/driver/uart_c.o
- .debug_abbrev  0x0000000000000228      0x13e build/src/main_c.o
+ .debug_abbrev  0x00000000000000fb      0x140 build/driver/uart_c.o
+ .debug_abbrev  0x000000000000023b      0x13e build/src/main_c.o
 
 .debug_aranges  0x0000000000000000       0xc0
  .debug_aranges
