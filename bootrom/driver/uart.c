@@ -26,7 +26,11 @@ void uart_init()
 {
 	register int bdiv asm ("t0");
 	//writel(0xd002c,2);
-	writel(0xd0008,0x20);
+	writel(0xd0108,0x1f);
+	writel(0xd0114,0x1f);
+	//writel(0xd0008,0x24);
+	writel(0xd0028,0x30000);
+	writel(0xd0008,0x22);
 	bdiv = (UART_CLK + 8*UART_DEFAULT_BAUD) /
 		(16 * UART_DEFAULT_BAUD);
 
