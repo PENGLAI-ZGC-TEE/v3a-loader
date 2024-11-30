@@ -146,6 +146,7 @@ void init_ddr(void)
 	//phy SDRAM config
     writel(0x00140004, 0x00040001);
 	//phy SDRAM init
+    //while(1){};
 	rd_data = 0x0;
     while (rd_data != 0x8000001f ){ 
     rd_data = readl(0x00140034);
@@ -201,9 +202,6 @@ void init_ddr(void)
     writel(0x00130060, 0x00000000);
     writel(0x00130320, 0x00000001);
     writel(0x00130490, 0x00000001);
-    readl(0x00130320);
-    readl(0x00130490);
-    while(1);
     writel(UART_BASE + 0, 'E');
 #endif
 }

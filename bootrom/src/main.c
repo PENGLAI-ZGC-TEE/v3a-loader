@@ -1,9 +1,9 @@
 #include <uart.h>
 #include <asm/mmio.h>
 
-#define DDR_BASE  0xc0000000
-#define FLASH_SRC 0x80300000 
-#define DDR_DST   0xc0000000
+#define DDR_BASE  0x80000000
+#define FLASH_SRC 0x2500000 
+#define DDR_DST   0x80000000
 #define BIN_SIZE  0x1f00000
 
 #define MACRO(j) ramStart[i + j] = romStart[i + j]
@@ -51,17 +51,18 @@ void gpio(void)
 		writel(0x4000c, 0xffffffff);
 		writel(0x40018, 0xffffffff);
 		writel(0x40024, 0xffffffff);
-		for(i = 0; i < 0x10000; i++){}
+		for(i = 0; i < 0x1000; i++){}
 		writel(0x40000, 0x0);
 		writel(0x4000c, 0x0);
 		writel(0x40018, 0x0);
 		writel(0x40024, 0x0);
-		for(i = 0; i < 0x10000; i++){}
+		for(i = 0; i < 0x1000; i++){}
 	}
 }
 void _main(void)
 {
         flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, BIN_SIZE/8);
+	writel(UART_BASE + 0, 'L');
 	((void (*) ())DDR_BASE)();
 	while(1){};
 }

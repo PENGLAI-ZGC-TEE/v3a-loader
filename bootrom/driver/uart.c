@@ -25,22 +25,7 @@ void uart_puts(char* str)
 void uart_init()
 {
 	register int bdiv asm ("t0");
-	//writel(0xd002c,2);
-	writel(0xd0108,0x1f);
-	writel(0xd0114,0x1f);
-	writel(0xd0028,0x30000);
-	writel(0xd0040,0x1307d);
-	writel(0xd0044,0x0);
-	writel(0xd0048,0x300);
-	writel(0xd004c,0x80);
 
-	writel(0xd0028,0x0);
-	writel(0xd0050,0x12064);
-	writel(0xd0054,0x0);
-	writel(0xd0058,0x300);
-	writel(0xd005c,0x80);
-
-	writel(0xd0008,0x26);
 	bdiv = (UART_CLK + 8*UART_DEFAULT_BAUD) /
 		(16 * UART_DEFAULT_BAUD);
 
@@ -69,9 +54,9 @@ void uart_init()
 	/* Set scratchpad */
 	writel(UART_SCR_OFFSET, 0x00);
 
-	while(1){
-	   writel(UART_BASE + 0, 0x5a);
-	   for(bdiv=0x0; bdiv<0x100;bdiv++){}
-	   //writel(UART_BASE + 0, '\n');
-	}
+	//while(1){
+	//   writel(UART_BASE + 0, 0x5a);
+	//   for(bdiv=0x0; bdiv<0x100;bdiv++){}
+	//   //writel(UART_BASE + 0, '\n');
+	//}
 }
