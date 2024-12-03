@@ -41,4 +41,5 @@ $(BUILD_DIR_SRC)/%_c.o: $(BOOTROM_SRC_DIR)/%.c
 
 clean:
 	rm -rf build
-	
+lst:
+	$(GNU)objdump -S build/bootrom.elf > build/boot.lst

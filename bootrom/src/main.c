@@ -1,10 +1,9 @@
 #include <uart.h>
 #include <asm/mmio.h>
 
-#define DDR_BASE  0x80000000
+#define DDR_DST  0x8c800000
 #define FLASH_SRC 0x2500000 
-#define DDR_DST   0x80000000
-#define BIN_SIZE  0x1f00000
+#define BIN_SIZE  0x100000
 
 #define MACRO(j) ramStart[i + j] = romStart[i + j]
 #define MACRO4(j) MACRO(j); MACRO(j + 1); MACRO(j + 2); MACRO(j + 3);
@@ -63,6 +62,6 @@ void _main(void)
 {
         flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, BIN_SIZE/8);
 	writel(UART_BASE + 0, 'L');
-	((void (*) ())DDR_BASE)();
+	((void (*) ())DDR_DST)();
 	while(1){};
 }

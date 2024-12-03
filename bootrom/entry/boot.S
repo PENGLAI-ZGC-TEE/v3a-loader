@@ -35,9 +35,9 @@ _start:
         li      t5, 0
         li      t6, 0
 	// set sp to 0xFF000000 (point to the end of ddr) as a temporary stack 
-	li t0, 4096
+	//li t0, 4096
 	li sp, 0xE0000000
-	add sp, sp, t0
+	//add sp, sp, t0
         //master core and slave core wait
         csrr t0, mhartid
         li t1, 0
