@@ -38,7 +38,7 @@ _start:
         //master core and slave core wait
         csrr t0, mhartid
         li t1, 0
-        bne t0, t1, gpio
+        bne t0, t1, wait
         
         csrw mie, zero
         //set expeption handler

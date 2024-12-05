@@ -24,8 +24,8 @@ OBJ_FILES += $(DRIVER_FILES:$(BOOTROM_DRIVER_DIR)/%.c=$(BUILD_DIR_DRIVER)/%_c.o)
 OBJ_FILES += $(SRC_FILES:$(BOOTROM_SRC_DIR)/%.c=$(BUILD_DIR_SRC)/%_c.o)
 
 default: $(OBJ_FILES)
-	$(LD)  -T $(BOOTROM_DIR)/bootrom.ld -o $(BUILD_DIR)/bootrom.elf $(OBJ_FILES) -Map $(BUILD_DIR)/bootrom.map
-	$(RISCV_COPY) $(BUILD_DIR)/bootrom.elf -O binary $(BUILD_DIR)/boot2.bin
+	$(LD)  -T $(BOOTROM_DIR)/boot2.ld -o $(BUILD_DIR)/boot2.elf $(OBJ_FILES) -Map $(BUILD_DIR)/boot2.map
+	$(RISCV_COPY) $(BUILD_DIR)/boot2.elf -O binary $(BUILD_DIR)/boot2.bin
 	rm $(BUILD_DIR)/*.o
 	
 $(BUILD_DIR)/%_s.o: $(BOOTROM_ENTRY_DIR)/%.S
@@ -42,4 +42,4 @@ $(BUILD_DIR_SRC)/%_c.o: $(BOOTROM_SRC_DIR)/%.c
 clean:
 	rm -rf build
 lst:
-	$(GNU)objdump -S build/bootrom.elf > build/boot.lst
+	$(GNU)objdump -S build/boot2.elf > build/boot.lst

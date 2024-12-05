@@ -1,3 +1,4 @@
+#include <pll.h>
 
 .section ".text.boot"
   
@@ -34,10 +35,7 @@ _start:
         li      t4, 0
         li      t5, 0
         li      t6, 0
-	// set sp to 0xFF000000 (point to the end of ddr) as a temporary stack 
-	//li t0, 4096
 	li sp, 0xE0000000
-	//add sp, sp, t0
         //master core and slave core wait
         csrr t0, mhartid
         li t1, 0
@@ -54,10 +52,10 @@ _start:
         csrw pmpaddr1, t0
         li t0, 0x1f
         csrw pmpcfg0, t0
-
+#ifdef CORE_1_G
         jal pll_core
+#endif 
         jal pll_address
-        jal pll_ddr
         jal pll_enable 
 	jal uart_init
         jal init_ddr
@@ -69,4 +67,17 @@ wait:
        j .
 .align 3
 sbi_exception_vector:
-        j . 
+       j . 
+
+.section .boot2bin, "ax", %progbits
+        .global _boot2bin_start
+        .align 4
+
+_boot2bin_start: 
+        .incbin "../boot2/build/boot2.bin"
+
+        .global _boot2bin_end
+        .align 4
+_boot2bin_end:
+         j .
+

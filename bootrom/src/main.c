@@ -2,8 +2,8 @@
 #include <asm/mmio.h>
 
 #define DDR_DST  0x8c800000
-#define FLASH_SRC 0x2500000 
-#define BIN_SIZE  0x100000
+extern const unsigned char _boot2bin_start[];
+extern const unsigned char _boot2bin_end[];
 
 #define MACRO(j) ramStart[i + j] = romStart[i + j]
 #define MACRO4(j) MACRO(j); MACRO(j + 1); MACRO(j + 2); MACRO(j + 3);
@@ -21,13 +21,6 @@ void flash_cpy(void* src, void* dst, uint64_t size)
   }
 }
 
-void soc_cru(void)
-{
-	writel(0xd0104, 0xc000);
-	writel(0xd0108, 0x003f);
-	writel(0xd0110, 0xc000);
-	writel(0xd0114, 0x003f);
-}
 void gpio(void)
 {
         
@@ -36,8 +29,8 @@ void gpio(void)
         i = readl(0x40054);	
         i = readl(0x40058);	
         i = readl(0x4005c);	
-//	writel(0xd0100, 0xffffff00);
-//	writel(0xd0104, 0xffffffff);
+	writel(0xd0108,0x1f);
+	writel(0xd0114,0x1f);
 
 	writel(0x40004, 0xffffffff);
 	writel(0x40010, 0xffffffff);
@@ -60,8 +53,8 @@ void gpio(void)
 }
 void _main(void)
 {
-        flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, BIN_SIZE/8);
-	writel(UART_BASE + 0, 'L');
+        flash_cpy((void*)_boot2bin_start, (void*)DDR_DST, ((long)_boot2bin_end - (long)_boot2bin_start)/8);
+	asm volatile("fence");
 	((void (*) ())DDR_DST)();
 	while(1){};
 }

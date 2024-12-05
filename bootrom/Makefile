@@ -16,7 +16,13 @@ BUILD_DIR_SRC = $(BUILD_DIR)/src
 
 COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 -march=rv64imafdc -fno-PIE -fomit-frame-pointer -Wno-builtin-declaration-mismatch
 
-DRIVER_FILES = $(wildcard $(BOOTROM_DRIVER_DIR)/*.c)
+DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/uart.c)
+DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/soc_cru.c)
+ifeq ($(shell grep -E '^#define[ \t]+DDR_1600' ./include/pll.h),)
+	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc24.c)
+else
+	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc16.c)
+endif 
 SRC_FILES += $(wildcard $(BOOTROM_SRC_DIR)/*.c)
 ASM_FILES = $(wildcard $(BOOTROM_ENTRY_DIR)/*.S)
 OBJ_FILES = $(ASM_FILES:$(BOOTROM_ENTRY_DIR)/%.S=$(BUILD_DIR)/%_s.o)
@@ -42,4 +48,4 @@ $(BUILD_DIR_SRC)/%_c.o: $(BOOTROM_SRC_DIR)/%.c
 clean:
 	rm -rf build
 lst:
-	$(GNU)objdump -S build/bootrom.elf > build/boot.lst
+	$(GNU)objdump -S build/bootrom.elf > build/bootrom.lst
