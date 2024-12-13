@@ -10,13 +10,16 @@ BUILD_DIR = build
 BOOTROM_DIR = $(abspath .)
 BOOTROM_ENTRY_DIR = $(BOOTROM_DIR)/entry
 BOOTROM_DRIVER_DIR = $(BOOTROM_DIR)/driver
+BOOTROM_DRIVER_SD = $(BOOTROM_DIR)/driver/sdmmc
 BOOTROM_SRC_DIR = $(BOOTROM_DIR)/src
+BUILD_DRIVER_SD = $(BUILD_DIR)/driver/sdmmc
 BUILD_DIR_DRIVER = $(BUILD_DIR)/driver
 BUILD_DIR_SRC = $(BUILD_DIR)/src
 
 COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 -march=rv64imafdc -fno-PIE -fomit-frame-pointer -Wno-builtin-declaration-mismatch
 
 DRIVER_FILES = $(wildcard $(BOOTROM_DRIVER_DIR)/*.c)
+DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_SD)/*.c)
 SRC_FILES += $(wildcard $(BOOTROM_SRC_DIR)/*.c)
 ASM_FILES = $(wildcard $(BOOTROM_ENTRY_DIR)/*.S)
 OBJ_FILES = $(ASM_FILES:$(BOOTROM_ENTRY_DIR)/%.S=$(BUILD_DIR)/%_s.o)
@@ -34,6 +37,7 @@ $(BUILD_DIR)/%_s.o: $(BOOTROM_ENTRY_DIR)/%.S
 
 $(BUILD_DIR_DRIVER)/%_c.o: $(BOOTROM_DRIVER_DIR)/%.c
 	mkdir -p $(BUILD_DIR_DRIVER)
+	mkdir -p $(BUILD_DRIVER_SD)
 	$(CC) $(COPS) -c $< -o $@
 $(BUILD_DIR_SRC)/%_c.o: $(BOOTROM_SRC_DIR)/%.c
 	mkdir -p $(BUILD_DIR_SRC)

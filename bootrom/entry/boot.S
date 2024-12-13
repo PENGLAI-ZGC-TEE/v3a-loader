@@ -39,7 +39,7 @@ _start:
         //master core and slave core wait
         csrr t0, mhartid
         li t1, 0
-        bne t0, t1, gpio
+        bne t0, t1, wait
         
         csrw mie, zero
         //set expeption handler
@@ -64,7 +64,7 @@ _start:
      
 .align 3
 wait:	
-       j .
+       jal gpio
 .align 3
 sbi_exception_vector:
        j . 
@@ -77,7 +77,6 @@ _boot2bin_start:
         .incbin "../boot2/build/boot2.bin"
 
         .global _boot2bin_end
-        .align 4
 _boot2bin_end:
          j .
 

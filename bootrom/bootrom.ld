@@ -10,11 +10,10 @@ SECTIONS
 	.bss : { *(.bss); }
 	.data : { *(.data); }
         
-       	. = ALIGN(8);
 	.boot2bin :
         {
-                *(.boot2bin);
-                . = ALIGN(8);
+       	    . = ALIGN(16);
+            *(.boot2bin);
         }
 
 }
