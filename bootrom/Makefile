@@ -14,7 +14,7 @@ BOOTROM_SRC_DIR = $(BOOTROM_DIR)/src
 BUILD_DIR_DRIVER = $(BUILD_DIR)/driver
 BUILD_DIR_SRC = $(BUILD_DIR)/src
 
-COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 -march=rv64imafdc -fno-PIE -fomit-frame-pointer -Wno-builtin-declaration-mismatch
+COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 -march=rv64gcv -fno-PIE -fomit-frame-pointer -Wno-builtin-declaration-mismatch
 
 DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/uart.c)
 DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/soc_cru.c)

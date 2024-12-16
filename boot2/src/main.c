@@ -27,6 +27,8 @@ void _main(void)
 	writel(0xb0014, 0x15501003);
         flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, BIN_SIZE/8);
 	writel(UART_BASE + 0, 'J');
+	writel(0x38000004, 1);
+	asm volatile("fence.i");
 	((void (*) ())DDR_BASE)();
 	while(1){};
 }

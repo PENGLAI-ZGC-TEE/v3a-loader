@@ -2,8 +2,11 @@
 #include <asm/mmio.h>
 
 #define DDR_DST  0x8c800000
+#define DDR_BASE  0x80000000
 extern const unsigned char _boot2bin_start[];
 extern const unsigned char _boot2bin_end[];
+#define CLINT_BASE 0x38000000
+#define CLINT_SIP_BASE  0x0
 
 #define MACRO(j) ramStart[i + j] = romStart[i + j]
 #define MACRO4(j) MACRO(j); MACRO(j + 1); MACRO(j + 2); MACRO(j + 3);
@@ -50,6 +53,11 @@ void gpio(void)
 		writel(0x40024, 0x0);
 		for(i = 0; i < 0x1000; i++){}
 	}
+}
+void boot_core1(void)
+{
+	((void (*) ())DDR_BASE)();
+	while(1){};
 }
 void _main(void)
 {
