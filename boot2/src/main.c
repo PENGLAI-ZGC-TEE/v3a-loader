@@ -1,10 +1,11 @@
 #include <uart.h>
 #include <asm/mmio.h>
+#include <print.h>
+#include <pll.h>
 
 #define DDR_BASE  0x80000000
 #define FLASH_SRC 0x4200000 
 #define DDR_DST   0x80000000
-#define BIN_SIZE  0x1f00000
 
 #define MACRO(j) ramStart[i + j] = romStart[i + j]
 #define MACRO4(j) MACRO(j); MACRO(j + 1); MACRO(j + 2); MACRO(j + 3);
@@ -25,8 +26,23 @@ void flash_cpy(void* src, void* dst, uint64_t size)
 void _main(void)
 {
 	writel(0xb0014, 0x15501003);
-        flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, BIN_SIZE/8);
-	writel(UART_BASE + 0, 'J');
+        flash_cpy((void*)FLASH_SRC, (void*)DDR_DST, _PAYLOAD_SIZE/8 + 1);
+        my_print("\r\n");
+#ifdef CORE_1_G   
+        my_print("core frq 1G \r\n");
+#endif
+#ifdef CORE_1_5G  
+        my_print("core frq 1.5G \r\n");
+#endif
+#ifdef DDR_1600   
+        my_print("ddr frq 1600 \r\n");
+#endif
+#ifdef DDR_2100   
+        my_print("ddr frq 2132 \r\n");
+#endif
+#ifdef DDR_2400   
+        my_print("ddr frq 2400 \r\n");
+#endif
 	writel(0x38000004, 1);
 	asm volatile("fence.i");
 	((void (*) ())DDR_BASE)();

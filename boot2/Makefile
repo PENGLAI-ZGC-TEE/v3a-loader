@@ -15,8 +15,11 @@ BOOTROM_SRC_DIR = $(BOOTROM_DIR)/src
 BUILD_DRIVER_SD = $(BUILD_DIR)/driver/sdmmc
 BUILD_DIR_DRIVER = $(BUILD_DIR)/driver
 BUILD_DIR_SRC = $(BUILD_DIR)/src
+FW_PAYLOAD = ../bin/fw_payload.bin
+FW_SIZE := $(shell stat -c %s $(FW_PAYLOAD))
 
 COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 -march=rv64gcv -fno-PIE -fomit-frame-pointer -Wno-builtin-declaration-mismatch
+COPS += -D_PAYLOAD_SIZE=$(FW_SIZE)
 
 DRIVER_FILES = $(wildcard $(BOOTROM_DRIVER_DIR)/*.c)
 DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_SD)/*.c)

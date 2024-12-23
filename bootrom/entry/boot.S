@@ -36,6 +36,10 @@ _start:
         li      t5, 0
         li      t6, 0
 	li sp, 0xE0000000
+        li t0, 0xa0000000
+        csrw 0x7d5, t0
+        li  t0, 0x1b006f0b0d0b0f0b
+        csrw 0x7c2, t0
         //master core and slave core wait
         csrr t0, mhartid
         li t1, 0

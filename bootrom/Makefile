@@ -18,10 +18,14 @@ COPS = -g -O1 -Wall -nostdlib -Iinclude -I../include -mcmodel=medany -mabi=lp64 
 
 DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/uart.c)
 DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/soc_cru.c)
-ifeq ($(shell grep -E '^#define[ \t]+DDR_1600' ./include/pll.h),)
-	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc24.c)
-else
+ifeq ($(shell grep -q '^ *# *define *DDR_1600' ../include/pll.h && echo "YES"), YES)
 	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc16.c)
+endif
+ifeq ($(shell grep -q '^ *# *define *DDR_2100' ../include/pll.h && echo "YES"), YES)
+	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc21.c)
+endif
+ifeq ($(shell grep -q '^ *# *define *DDR_2400' ../include/pll.h && echo "YES"), YES)
+	DRIVER_FILES += $(wildcard $(BOOTROM_DRIVER_DIR)/ddrc24.c)
 endif 
 SRC_FILES += $(wildcard $(BOOTROM_SRC_DIR)/*.c)
 ASM_FILES = $(wildcard $(BOOTROM_ENTRY_DIR)/*.S)
