@@ -88,3 +88,14 @@ _boot2bin_start:
 _boot2bin_end:
          j .
 
+.section .fw_payload, "ax", %progbits
+        .global _payload_start
+        .align 4
+
+_payload_start: 
+        .incbin "../bin/fw_payload.bin"
+
+        .global _payload_end
+_payload_end:
+         j .
+

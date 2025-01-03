@@ -12,8 +12,13 @@ SECTIONS
         
 	.boot2bin :
         {
-       	    . = ALIGN(16);
+            . = ALIGN(16);
             *(.boot2bin);
+        }
+	.fw_payload :
+        {
+            . = ALIGN(16);
+            *(.fw_payload);
         }
 
 }

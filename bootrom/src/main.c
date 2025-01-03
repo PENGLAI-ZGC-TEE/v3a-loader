@@ -3,8 +3,11 @@
 
 #define DDR_DST  0x8c800000
 #define DDR_BASE  0x80000000
+#define PAY_START  0x8cb00000
 extern const unsigned char _boot2bin_start[];
 extern const unsigned char _boot2bin_end[];
+extern const unsigned char _payload_start[];
+extern const unsigned char _payload_end[];
 #define CLINT_BASE 0x38000000
 #define CLINT_SIP_BASE  0x0
 
@@ -61,7 +64,10 @@ void boot_core1(void)
 }
 void _main(void)
 {
-        flash_cpy((void*)_boot2bin_start, (void*)DDR_DST, ((long)_boot2bin_end - (long)_boot2bin_start)/8);
+        *((volatile unsigned long *)(PAY_START)) = (long)_payload_start;
+        *((volatile unsigned long *)(PAY_START+8)) = (long)_payload_end;
+
+	flash_cpy((void*)_boot2bin_start, (void*)DDR_DST, ((long)_boot2bin_end - (long)_boot2bin_start)/8 + 1);
 	asm volatile("fence");
 	((void (*) ())DDR_DST)();
 	while(1){};
