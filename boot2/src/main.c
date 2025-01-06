@@ -32,7 +32,7 @@ void _main(void)
 	asm volatile("fence.i");
 	qspi_nonv_cfg(0xa8f6);
 	asm volatile("fence.i");
-        flash_cpy((void*)pay_start, (void*)DDR_DST, *((volatile unsigned long *)(PAY_END)) - *((volatile unsigned long *)(PAY_START)) + 1);
+        flash_cpy((void*)pay_start, (void*)DDR_DST, (*((volatile unsigned long *)(PAY_END)) - *((volatile unsigned long *)(PAY_START)))/8 + 1);
         my_print("\r\n");
 #ifdef CORE_1_G
         my_print("core frq 1G \r\n");
