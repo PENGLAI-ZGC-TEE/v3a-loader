@@ -49,11 +49,11 @@ void _main(void)
 #ifdef DDR_2400
         my_print("ddr frq 2400 \r\n");
 #endif
-	writel(0x38000004, 1);
 
 	qspi_nonv_cfg(0xa8f7);
 	qspi_enter_xip();
 	asm volatile("fence.i");
+	writel(0x38000004, 1);
 	((void (*) ())DDR_BASE)();
 	while(1){};
 }
