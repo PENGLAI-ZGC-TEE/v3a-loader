@@ -1,4 +1,4 @@
-GNU = riscv64-unknown-linux-gnu-
+GNU = riscv64-linux-gnu-
 
 CC = $(GNU)gcc
 LD = $(GNU)ld
