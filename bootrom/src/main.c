@@ -4,6 +4,7 @@
 #define DDR_DST  0x8c800000
 #define DDR_BASE  0x80000000
 #define PAY_START  0x8cb00000
+#define CORE1_WAIT 0x8ca00000
 extern const unsigned char _boot2bin_start[];
 extern const unsigned char _boot2bin_end[];
 extern const unsigned char _payload_start[];
@@ -59,7 +60,7 @@ void gpio(void)
 }
 void boot_core1(void)
 {
-	((void (*) ())DDR_BASE)();
+	((void (*) ())DDR_DST)();
 	while(1){};
 }
 void _main(void)
@@ -68,6 +69,7 @@ void _main(void)
         *((volatile unsigned long *)(PAY_START+8)) = (long)_payload_end;
 
 	flash_cpy((void*)_boot2bin_start, (void*)DDR_DST, ((long)_boot2bin_end - (long)_boot2bin_start)/8 + 1);
+        *((volatile unsigned long *)(CORE1_WAIT)) = 0x34;
 	asm volatile("fence");
 	((void (*) ())DDR_DST)();
 	while(1){};

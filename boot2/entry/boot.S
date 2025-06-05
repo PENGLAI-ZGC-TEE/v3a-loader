@@ -49,7 +49,11 @@ _start:
      
 .align 3
 wait:	
-       j .
+       wfi
+       csrr t0, mip
+       andi t0, t0, 1 << 3
+       beqz t0, wait
+       jal boot2_core1
 .align 3
 sbi_exception_vector:
         j . 

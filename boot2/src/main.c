@@ -25,6 +25,11 @@ void flash_cpy(void* src, void* dst, uint64_t size)
 	}
 }
 
+void boot2_core1(void)
+{
+	((void (*) ())DDR_BASE)();
+	while(1){};
+}
 void _main(void)
 {
 	unsigned long pay_start = *((volatile unsigned long *)(PAY_START));

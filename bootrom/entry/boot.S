@@ -69,10 +69,12 @@ _start:
 .align 3
 wait:
        wfi
-       csrr t0, mip
-       andi t0, t0, 1 << 3
-       beqz t0, wait
+       li t1, 0x8ca00000
+       lw t0, 0(t1)
+       li t2, 0x34 
+       bne t0, t2, wait
        jal boot_core1
+
 .align 3
 sbi_exception_vector:
        j . 
