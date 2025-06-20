@@ -7,7 +7,13 @@
 void pll_core(void)
 {
 	//core_pll
-	writel(0xd0040,0x1307d);
+#ifdef CORE_1_G
+    writel(0xd0040,0x1307d);
+#endif
+#ifdef CORE_1_5G
+    writel(0xd0040,0x130BB);
+#endif
+
 	writel(0xd0044,0x0);
 	writel(0xd0048,0x300);
 	writel(0xd004c,0x80);

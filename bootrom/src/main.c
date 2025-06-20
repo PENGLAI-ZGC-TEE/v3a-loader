@@ -43,7 +43,7 @@ void gpio(void)
 	writel(0x40010, 0xffffffff);
 	writel(0x4001c, 0xffffffff);
 	writel(0x40028, 0xffffffff);
-
+#if 0
         i = 0; 
 	while(1){
 		writel(0x40000, 0xffffffff);
@@ -57,14 +57,18 @@ void gpio(void)
 		writel(0x40024, 0x0);
 		for(i = 0; i < 0x1000; i++){}
 	}
+#endif
 }
+
 void boot_core1(void)
 {
 	((void (*) ())DDR_DST)();
 	while(1){};
 }
+
 void _main(void)
 {
+    gpio();
         *((volatile unsigned long *)(PAY_START)) = (long)_payload_start;
         *((volatile unsigned long *)(PAY_START+8)) = (long)_payload_end;
 
